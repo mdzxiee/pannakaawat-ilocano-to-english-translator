@@ -85,10 +85,7 @@ def translate_to_english(ilocano_sentence):
                 else:
                     english_tokens.append(leaf)
 
-        if english_tokens == r"[.!?]$":
-                translations.append("".join(english_tokens))
-        else:
-                translations.append(" ".join(english_tokens))
+            translations.append(" ".join(english_tokens))
 
         if translations:
             return translations[0] # Return the first possible translation
