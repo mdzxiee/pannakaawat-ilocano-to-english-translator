@@ -76,30 +76,31 @@ def tokenize_and_tag(ilocano_sentence, lexicon):
             pos_tags.append(word['pos'][0])
         else:
             pos_tags.append(token)
-
     return ilocano_words, pos_tags
 
-ilocano_lex = IlocanoLexicon()
-parallel_translations = ParallelSentence()
 
-grammar = IlocanoGrammar()
-grammar_parser = grammar.lookup_grammar_parser()
+if __name__ == "__main__":
+    ilocano_lex = IlocanoLexicon()
+    parallel_translations = ParallelSentence()
 
-# Example Ilocano sentences
-ilocano_sentences = [
-    "ak agbasa libro.",
-    "ti bassit nga aso.",
-    "isuna agkanta.",
-    "dagiti dakkel a balay.",
-    "kami mangted libro iti ka.",
-    "ka agtaray.",
-    "maysa napintas a pusa." #Error to sa production rules
-]
+    grammar = IlocanoGrammar()
+    grammar_parser = grammar.lookup_grammar_parser()
 
-print("--- POS-Tagged Grammar-Based Translation with Special Lexicon ---")
-for sentence in ilocano_sentences:
-    english_translation = translate_to_english(sentence, ilocano_lex, parallel_translations, grammar_parser)
-    print(f"Ilocano: {sentence}")
-    print(f"English: {english_translation}\n")
+    # Example Ilocano sentences
+    ilocano_sentences = [
+        "ak agbasa libro.",
+        "ti bassit nga aso.",
+        "isuna agkanta.",
+        "dagiti dakkel a balay.",
+        "kami mangted libro iti ka.",
+        "ka agtaray.",
+        "maysa napintas a pusa." #Error to sa production rules
+    ]
+
+    print("--- POS-Tagged Grammar-Based Translation with Special Lexicon ---")
+    for sentence in ilocano_sentences:
+        english_translation = translate_to_english(sentence, ilocano_lex, parallel_translations, grammar_parser)
+        print(f"Ilocano: {sentence}")
+        print(f"English: {english_translation}\n")
 
 
