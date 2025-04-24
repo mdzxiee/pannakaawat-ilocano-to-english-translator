@@ -66,26 +66,32 @@ ilocano_lexicon = {
 ilocano_grammar = nltk.CFG.fromstring(grammar_string)
 parser = nltk.ChartParser(ilocano_grammar)
 
-"""
-    Translates simple declarative Ilocano sentences/phrases to English using a
-    context-free grammar.
-"""
+
 def translate_to_english(ilocano_sentence):
+    """
+        Translates simple declarative Ilocano sentences/phrases to English using a
+        context-free grammar (ilocano_grammar = nltk.CFG.fromstring(grammar_string).
+    """
+
     tokens = word_tokenize(ilocano_sentence)
 
     try:
+        # uses parser to try and see if the sequence of Ilocano words (tokens) follows the grammar rules.
+        # If it does, it creates a "tree" showing the structure of the sentence.
         trees = parser.parse(tokens)
+
         translations = []
 
-        for tree in trees:
+        # If found one or more ways the sentence could fit the grammar, it goes through each of these ways (each "tree").
+        for tree in trees: # Simple rule-based translation based on the parse tree
             english_tokens = []
-            for leaf in tree.leaves():
-                if leaf in ilocano_lexicon:
+            for leaf in tree.leaves(): # For each "tree", look at the individual words (the "leaves" of the tree).
+                if leaf in ilocano_lexicon: # Check if the word is on the lexicon, if found append the translation
                     english_tokens.append(ilocano_lexicon[leaf])
-                else:
+                else: # if not found, append the word as it is
                     english_tokens.append(leaf)
 
-            translations.append(" ".join(english_tokens))
+            translations.append(" ".join(english_tokens)) # Append the translation with whitespace
 
         if translations:
             return translations[0] # Return the first possible translation
@@ -111,3 +117,13 @@ ilocano_phrases = [
 for phrase in ilocano_phrases:
     english_translation = translate_to_english(phrase)
     print(f"Ilocano: {phrase}\nEnglish: {english_translation}\n")
+
+
+
+
+
+
+
+
+
+
