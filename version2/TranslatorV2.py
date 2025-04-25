@@ -6,14 +6,25 @@ from Parallel_Sentence import ParallelSentence
 from Ilocano_Grammar import IlocanoGrammar
 
 def translate_to_english(ilocano_sentence, lexicon, parallel_sentence, parser):
+    """
+    This method translates a source language sentence to english
+    using the parallel language translations, the grammar production rules, and the lexicon.
+    :param ilocano_sentence: input or source language sentence to be translated to english
+    :param lexicon: collection of words in a source language,
+    their corresponding translations in the target language, and Part-of-Speech (POS) tag
+    :param parallel_sentence: parallel sentences of ilocano to english translations
+    :param parser: analyze and find a sequence of POS tags conforming to the defined grammar
+    :return: translated version of the source language sentence
+    from the parallel translation and grammar based translation of the sentence
+    """
     try:
         parallel_translation = parallel_sentence_translator_to_en(parallel_sentence, ilocano_sentence)
-        print(parallel_translation)
+
         if is_fully_translated(parallel_translation, lexicon):
             return parallel_translation
         else:
             tokenized_words, pos_tags = tokenize_and_tag(parallel_translation, lexicon)
-            trees = parser.parse(pos_tags)
+            trees = parser.parse(pos_tags)  # Finds a sequence of POS tags conforming to the defined grammar
             grammar_based_translation = grammar_based_translator_to_en(tokenized_words, lexicon, trees)
             if not grammar_based_translation:
                 return "Translation not possible based on the current grammar and lexicon."
@@ -23,6 +34,13 @@ def translate_to_english(ilocano_sentence, lexicon, parallel_sentence, parser):
         return f"Error during parsing: {ex}"
 
 def is_fully_translated(parallel_translation, lexicon):
+    """
+    This method checks and return a boolean value if a given sentence or translation is fully translated to english
+    :param parallel_translation: input sentence or initial translation to be checked
+    :param lexicon: collection of words in a source language,
+    their corresponding translations in the target language, and Part-of-Speech (POS) tag
+    :return: boolean true or false
+    """
     tokens = word_tokenize(parallel_translation.lower())
     for token in tokens:
         word = lexicon.lookup(token)
@@ -31,6 +49,13 @@ def is_fully_translated(parallel_translation, lexicon):
     return False
 
 def parallel_sentence_translator_to_en(parallel_sentence, ilocano_sentence):
+    """
+    This method translates a source language sentence to english
+    using the predefined parallel english translations of simple Ilocano sentences and phrases
+    :param parallel_sentence: parallel sentences of ilocano to english translations
+    :param ilocano_sentence: input or source language sentence to be translated to english
+    :return: translated version of the source language sentence from the parallel translation of sentences
+    """
     sent = ilocano_sentence
     for ilocano_phrase, english_phrase in parallel_sentence.map.items():
         pattern = r'\b' + re.escape(ilocano_phrase) + r'\b'
@@ -39,6 +64,15 @@ def parallel_sentence_translator_to_en(parallel_sentence, ilocano_sentence):
     return sent
 
 def grammar_based_translator_to_en(tokenized_words, lexicon, trees):
+    """
+    This method translates a source language sentence to english
+    using the Ilocano language lexicon
+    :param tokenized_words: tokenized source language sentence
+    :param lexicon: collection of words in a source language,
+    their corresponding translations in the target language, and Part-of-Speech (POS) tag
+    :param trees: tree structure of the grammar having the tokenized sentence with their POS Tag
+    :return: translated version of the source language sentence using the lexicon and the grammar production rules
+    """
     try:
         translations = []
 
@@ -65,6 +99,14 @@ def grammar_based_translator_to_en(tokenized_words, lexicon, trees):
 
 
 def tokenize_and_tag(ilocano_sentence, lexicon):
+    """
+    This method tokenize a given string and check their corresponding POS tag from the lexicon, thus,
+    return the tokenized sentence and the POS tag of each token
+    :param ilocano_sentence: input or source language sentence to be tokenized and to be POS tagged
+    :param lexicon: collection of words in a source language,
+    their corresponding translations in the target language, and Part-of-Speech (POS) tag
+    :return: tokenized source language sentence, and their corresponding POS Tags
+    """
     tokens = word_tokenize(ilocano_sentence.lower())
     pos_tags = []
     ilocano_words = []
@@ -94,7 +136,8 @@ if __name__ == "__main__":
         "dagiti dakkel a balay.",
         "kami mangted libro iti ka.",
         "ka agtaray.",
-        "maysa napintas a pusa." #Error to sa production rules
+        "maysa napintas a pusa.", #Error to sa production rules
+        "Nasayaat, sika?" # Part din siguro ng limitations natin yung processing nung may mga punctuations in the middle
     ]
 
     print("--- POS-Tagged Grammar-Based Translation with Special Lexicon ---")
