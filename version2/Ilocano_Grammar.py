@@ -3,6 +3,36 @@ import nltk
 # Define the grammar using POS tags as terminal symbols
 grammar_string_pos = """
     S -> NP VP | NP VP PUNC | S CC S | UH S | UH PUNC | WP S | WRB S | WP PUNC | WRB PUNC
+    S -> DT NN VBZ VBG RB
+    S -> DT NNS VBZ VBG
+    S -> DT NN VBZ VBG
+    S -> DT NN VBZ
+    S -> DT NNS VBP
+    S -> DT NN VBD
+    S -> DT NNS VBD
+    S -> DT NN VBZ RB
+    S -> DT NNS VBP RB
+    S -> DT NN VBD RB
+    S -> DT NNS VBD RB
+    S -> DT NNS VBZ VBG RB
+    S -> DT NNS VBP VBG
+    S -> DT NNS VBP VBG RB
+    S -> DT NN VBD VBG
+    S -> DT NN VBD VBG RB
+    S -> DT NNS VBD VBG
+    S -> DT NNS VBD VBG RB
+    S -> DT NN VBZ NP
+    S -> DT NNS VBP NP
+    S -> DT NN VBD NP
+    S -> DT NNS VBD NP
+    S -> DT NN VBZ PP
+    S -> DT NNS VBP PP
+    S -> DT NN VBD PP
+    S -> DT NNS VBD PP
+    S -> DT NN VBZ NP PP
+    S -> DT NNS VBP NP PP
+    S -> DT NN VBD NP PP
+    S -> DT NNS VBD NP PP
     NP -> NN | NNS | NNP
     NP -> DT NN | DT NNS | DT NNP
     NP -> JJ NN | JJ NNS | JJ NNP
