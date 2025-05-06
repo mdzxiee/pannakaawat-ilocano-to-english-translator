@@ -1,9 +1,10 @@
 import re
 from nltk.tokenize import word_tokenize
+from nltk.tree import Tree
 
-from Ilocano_Lexicon import IlocanoLexicon
-from Parallel_Sentence import ParallelSentence
-from Ilocano_Grammar import IlocanoGrammar
+from version2.Ilocano_Lexicon import IlocanoLexicon
+from version2.Parallel_Sentence import ParallelSentence
+from version2.Ilocano_Grammar import IlocanoGrammar
 
 def translate_to_english(ilocano_sentence, lexicon, parallel_sentence, parser):
     """
@@ -66,28 +67,56 @@ def parallel_sentence_translator_to_en(parallel_sentence, ilocano_sentence):
 def grammar_based_translator_to_en(tokenized_words, lexicon, trees):
     """
     This method translates a source language sentence to english
-    using the Ilocano language lexicon
+    using the Ilocano language lexicon and arranges it to active voice
     :param tokenized_words: tokenized source language sentence
     :param lexicon: collection of words in a source language,
     their corresponding translations in the target language, and Part-of-Speech (POS) tag
     :param trees: tree structure of the grammar having the tokenized sentence with their POS Tag
-    :return: translated version of the source language sentence using the lexicon and the grammar production rules
+    :return: translated version of the source language sentence in active voice
     """
     try:
         translations = []
-
         for tree in trees:
             english_tokens = []
+            word_pos_pairs = []
             for index, leaf in enumerate(tree.leaves()):
-                # Python construct used to iterate over the leaf nodes of a parse tree (tree) while also keeping track of the index of each leaf.
                 ilocano_word = tokenized_words[index]
                 token = lexicon.lookup(ilocano_word)
-
-                if token and 'en' in token:
+                if token and 'en' in token and 'pos' in token:
                     english_tokens.append(token['en'][0])
+                    word_pos_pairs.append((token['en'][0], token['pos'][0]))
+                elif token and 'en' in token:
+                    english_tokens.append(token['en'][0])
+                    word_pos_pairs.append((token['en'][0], None)) # Handle cases without POS
                 else:
-                    english_tokens.append(ilocano_word)  # Keep original if no translation
-            translations.append(" ".join(english_tokens))
+                    english_tokens.append(ilocano_word)
+                    word_pos_pairs.append((ilocano_word, None)) # Keep original if no translation
+
+            # Basic active voice arrangement (Subject-Verb-Object)
+            subject = ""
+            verb = ""
+            obj = ""
+            others = []
+
+            """
+            mali to HAHAHAHHA, inaassume rito na subject yung noun which is in the case mo 'agbasa ak libro'
+            na noun si libro, prp si ak, and verb si agbasa, nagiging 'book read I' siya
+            HAHAHAHHA wala na kong idea, help me please, save me.
+            """
+
+            for word, pos in word_pos_pairs:
+                if pos and pos.startswith('N'):  # Noun (potential subject or object)
+                    if not subject:
+                        subject = word
+                    else:
+                        obj = word
+                elif pos and pos.startswith('V'):  # Verb
+                    verb = word
+                else:
+                    others.append(word)
+
+            active_voice_translation = " ".join([subject, verb, obj, " ".join(others)]).strip().replace("  ", " ")
+            translations.append(active_voice_translation)
 
         if translations:
             return translations[0]  # Return the first possible translation
@@ -130,22 +159,10 @@ if __name__ == "__main__":
 
     # Example Ilocano sentences
     ilocano_sentences = [
-        "agbasa ak libro.",
-        "adayo",
-        "ti bassit nga aso.",
-        "naimbag a bigat",
-        "isuna agkanta.",
-        "dagiti dakkel a balay.",
-        "kami mangted libro iti ka.",
-        "ka agtaray.",
-        "maysa napintas a pusa.", #Error to sa production rules
-        "nasayaat, sika", # Part din siguro ng limitations natin yung processing nung may mga punctuations in the middle
-        "Gumatang iti mangga diay ubing."
+        "agbasa ak libro."
     ]
 
     for sentence in ilocano_sentences:
         english_translation = translate_to_english(sentence, ilocano_lex, parallel_translations, grammar_parser)
         print(f"Ilocano: {sentence}")
         print(f"English: {english_translation}\n")
-
-
