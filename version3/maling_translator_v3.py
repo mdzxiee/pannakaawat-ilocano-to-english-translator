@@ -92,27 +92,38 @@ def grammar_based_translator_to_en(tokenized_words, lexicon, trees):
                     english_tokens.append(ilocano_word)
                     word_pos_pairs.append((ilocano_word, None)) # Keep original if no translation
 
-            # Basic active voice arrangement (Subject-Verb-Object)
             subject = ""
             verb = ""
             obj = ""
             others = []
 
-            """
-            mali to HAHAHAHHA, inaassume rito na subject yung noun which is in the case mo 'agbasa ak libro'
-            na noun si libro, prp si ak, and verb si agbasa, nagiging 'book read I' siya
-            HAHAHAHHA wala na kong idea, help me please, save me.
-            """
-
+            # Prioritize Pronouns (PRP) as potential subjects
             for word, pos in word_pos_pairs:
-                if pos and pos.startswith('N'):  # Noun (potential subject or object)
-                    if not subject:
+                if pos == 'PRP' and not subject:
+                    subject = word
+                    break # Take the first pronoun as the subject for simplicity
+
+            # Then look for nouns (N*) as subject if no pronoun is found
+            if not subject:
+                for word, pos in word_pos_pairs:
+                    if pos and pos.startswith('N'):
                         subject = word
-                    else:
-                        obj = word
-                elif pos and pos.startswith('V'):  # Verb
+                        break
+
+            # Identify the verb (V*)
+            for word, pos in word_pos_pairs:
+                if pos and pos.startswith('V') and not verb:
                     verb = word
-                else:
+                    break
+
+            # Identify the object (N*) - after the verb
+            verb_found = False
+            for word, pos in word_pos_pairs:
+                if pos and pos.startswith('V'):
+                    verb_found = True
+                elif verb_found and pos and pos.startswith('N') and not obj:
+                    obj = word
+                elif not (pos == 'PRP' or (pos and pos.startswith('N')) or (pos and pos.startswith('V'))):
                     others.append(word)
 
             active_voice_translation = " ".join([subject, verb, obj, " ".join(others)]).strip().replace("  ", " ")
@@ -129,26 +140,79 @@ def grammar_based_translator_to_en(tokenized_words, lexicon, trees):
 
 def tokenize_and_tag(ilocano_sentence, lexicon):
     """
-    This method tokenize a given string and check their corresponding POS tag from the lexicon, thus,
-    return the tokenized sentence and the POS tag of each token
-    :param ilocano_sentence: input or source language sentence to be tokenized and to be POS tagged
+    This method tokenizes a given string, checks their corresponding POS tag from the lexicon,
+    rearranges the POS tags into a basic active voice order (Subject-Verb-Object),
+    and returns the tokenized sentence and the rearranged POS tags.
+    :param ilocano_sentence: input or source language sentence to be tokenized and POS tagged
     :param lexicon: collection of words in a source language,
     their corresponding translations in the target language, and Part-of-Speech (POS) tag
-    :return: tokenized source language sentence, and their corresponding POS Tags
+    :return: tokenized source language sentence, and their corresponding rearranged POS Tags
     """
     tokens = word_tokenize(ilocano_sentence.lower())
     pos_tags = []
     ilocano_words = []
 
+    word_pos_list = []
     for token in tokens:
         word = lexicon.lookup(token)
         ilocano_words.append(token)
         if word and 'pos' in word:
-            pos_tags.append(word['pos'][0])
+            word_pos_list.append((token, word['pos'][0]))
+            pos_tags.append(word['pos'][0]) # Keep original for now
         else:
-            pos_tags.append(token)
-    return ilocano_words, pos_tags
+            word_pos_list.append((token, token)) # Tag with the word itself if no POS
+            pos_tags.append(token) # Keep original for now
 
+    # Basic rearrangement logic for POS tags
+    subject_pos = None
+    verb_pos = None
+    object_pos = None
+    other_pos_tags = []
+    rearranged_pos_tags = []
+
+    # Prioritize PRP as subject
+    for word, pos in word_pos_list:
+        if pos == 'PRP' and not subject_pos:
+            subject_pos = pos
+            rearranged_pos_tags.append(pos)
+            break
+
+    # Then look for N* as subject
+    if not subject_pos:
+        for word, pos in word_pos_list:
+            if pos and pos.startswith('N') and not subject_pos:
+                subject_pos = pos
+                rearranged_pos_tags.append(pos)
+                break
+
+    # Identify verb (V*)
+    for word, pos in word_pos_list:
+        if pos and pos.startswith('V') and not verb_pos:
+            verb_pos = pos
+            rearranged_pos_tags.append(pos)
+            break
+
+    # Identify object (N*) after verb
+    verb_found_index = -1
+    for i, (word, pos) in enumerate(word_pos_list):
+        if pos and pos.startswith('V'):
+            verb_found_index = i
+            break
+
+    if verb_found_index != -1:
+        for i in range(verb_found_index + 1, len(word_pos_list)):
+            word, pos = word_pos_list[i]
+            if pos and pos.startswith('N') and not object_pos:
+                object_pos = pos
+                rearranged_pos_tags.append(pos)
+                break
+
+    # Add any remaining POS tags
+    for pos in pos_tags:
+        if pos not in rearranged_pos_tags:
+            rearranged_pos_tags.append(pos)
+
+    return ilocano_words, rearranged_pos_tags
 
 if __name__ == "__main__":
     ilocano_lex = IlocanoLexicon()
@@ -159,10 +223,14 @@ if __name__ == "__main__":
 
     # Example Ilocano sentences
     ilocano_sentences = [
-        "agbasa ak libro."
+        "libro ak agbasa",
     ]
 
     for sentence in ilocano_sentences:
         english_translation = translate_to_english(sentence, ilocano_lex, parallel_translations, grammar_parser)
         print(f"Ilocano: {sentence}")
         print(f"English: {english_translation}\n")
+
+    """
+    BASTA MALI TO
+    """
