@@ -1,9 +1,9 @@
 import re
 from nltk.tokenize import word_tokenize
 
-from Ilocano_Lexicon import IlocanoLexicon
+from Lexicon import IlocanoLexicon
 from Parallel_Sentence import ParallelSentence
-from Ilocano_Grammar import IlocanoGrammar
+from Grammar import IlocanoGrammar
 
 def translate_to_english(ilocano_sentence, lexicon, parallel_sentence, parser):
     """

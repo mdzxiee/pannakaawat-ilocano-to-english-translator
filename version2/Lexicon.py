@@ -20,6 +20,7 @@ class IlocanoLexicon:
             'agtaray': {'en': ['run'], 'pos': ['VB']},
             'agkanta': {'en': ['sing'], 'pos': ['VB']},
             'agbasa': {'en': ['read'], 'pos': ['VB']},
+            'agbasbasa': {'en': ['reading'], 'pos': ['VB']},
             'mangted':{'en': ['give'], 'pos': ['VB']},
             'ken': {'en': ['and'], 'pos': ['CC']},
             'iti': {'en': ['to', 'in', 'at'], 'pos': ['IN']},
