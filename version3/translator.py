@@ -2,9 +2,9 @@ import re
 from nltk.tokenize import word_tokenize
 from nltk.tree import Tree
 
-from version2.Ilocano_Lexicon import IlocanoLexicon
-from version2.Parallel_Sentence import ParallelSentence
-from version2.Ilocano_Grammar import IlocanoGrammar
+from lexicon import IlocanoLexicon
+from parallel_sentence import ParallelSentence
+from grammar import IlocanoGrammar
 
 def translate_to_english(ilocano_sentence, lexicon, parallel_sentence, parser):
     """
@@ -223,14 +223,10 @@ if __name__ == "__main__":
 
     # Example Ilocano sentences
     ilocano_sentences = [
-        "libro ak agbasa",
+        "agbasa ak libro",
     ]
 
     for sentence in ilocano_sentences:
         english_translation = translate_to_english(sentence, ilocano_lex, parallel_translations, grammar_parser)
         print(f"Ilocano: {sentence}")
         print(f"English: {english_translation}\n")
-
-    """
-    BASTA MALI TO
-    """
