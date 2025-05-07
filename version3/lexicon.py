@@ -13,7 +13,6 @@ class IlocanoLexicon:
                 lexicon_data = json.load(f)
         except FileNotFoundError:
             print(f"Error: Lexicon data file '{self.data_file}' not found.")
-            # You might want to create an empty file or handle this differently
         except json.JSONDecodeError:
             print(f"Error: Could not decode JSON from '{self.data_file}'.")
         return lexicon_data

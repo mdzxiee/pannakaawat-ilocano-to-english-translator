@@ -1,6 +1,5 @@
 import re
 from nltk.tokenize import word_tokenize
-from nltk.tree import Tree
 
 from lexicon import IlocanoLexicon
 from parallel_sentence import ParallelSentence
