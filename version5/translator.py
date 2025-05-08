@@ -44,7 +44,7 @@ def translate_to_english(ilocano_sentence, lexicon, parser):
             return english_sentence
         return "CANNOT TRANSLATE"
     except Exception as e:
-        return f"error nga kulet: {e}"
+        return f"Translate Exception: {e}"
 
 if __name__ == "__main__":
     ilocano_lex = IlocanoLexicon()
