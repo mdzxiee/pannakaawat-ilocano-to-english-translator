@@ -66,6 +66,9 @@ if __name__ == "__main__":
     ilocano_sentences = [
         "agbasa ak libro",
         "nagtakki ka"
+        "nagtakki ka",
+        "nasadot ti aso",
+        "agasawa"
     ]
 
     for sentence in ilocano_sentences:
