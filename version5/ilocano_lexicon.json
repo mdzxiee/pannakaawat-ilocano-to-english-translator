@@ -496,7 +496,7 @@
   "isu": {"en": ["he"], "pos": ["PRP"]},
   "nakakita": {"en": ["saw"], "pos": ["VB"]},
   "marya": {"en": ["Mary"], "pos": ["NNP"]},
-  "ni": {"en": ["name marker"], "pos": ["DT"]},
+  "ni": {"en": [""], "pos": ["DT"]},
   "bilin": {"en": ["instruction"], "pos": ["NN"]},
   "nagtudo": {"en": ["rained"], "pos": ["VB"]},
   "nagbagyo": {"en": ["stormed"], "pos": ["VB"]},
