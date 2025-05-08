@@ -8,6 +8,9 @@ def transform_tree(tree):
         if len(tree) == 2 and tree[0].label() == 'VB' and tree[1].label() == 'NP':
             return nltk.Tree('S', [tree[1], tree[0]])
         elif len(tree) == 3 and tree[0].label() == 'VB' and tree[1].label() == 'NP' and tree[2].label() == 'NP':
+            sub_tree = tree[1]
+            if len(sub_tree) == 1 and sub_tree[0].label() == 'PRP':
+                return nltk.Tree('S', [sub_tree, tree[0], tree[2]])
             return nltk.Tree('S', [tree[1], tree[0], tree[2]])
     return tree
 
@@ -44,8 +47,10 @@ def translate_to_english(ilocano_sentence, lexicon, parser):
                 else:   
                     pos_tags.append(token)
         """
+        print(pos_tags)
         trees = parser.parse(pos_tags)
         for tree in trees:
+            print(tree)
             transformed_tree = transform_tree(tree)
             english_sentence = get_english_sentence(transformed_tree, pos_tags, tokens, lexicon)
             return english_sentence
@@ -60,6 +65,7 @@ if __name__ == "__main__":
 
     ilocano_sentences = [
         "agbasa ak libro",
+        "nagtakki ka"
     ]
 
     for sentence in ilocano_sentences:

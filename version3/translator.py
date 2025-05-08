@@ -223,6 +223,7 @@ if __name__ == "__main__":
     # Example Ilocano sentences
     ilocano_sentences = [
         "agbasa ak libro",
+        'ti libro inadal',
     ]
 
     for sentence in ilocano_sentences:
