@@ -3,7 +3,7 @@ from nltk.tokenize import word_tokenize
 
 from lexicon import IlocanoLexicon
 from parallel_sentence import ParallelSentence
-from grammar import IlocanoGrammar
+from grammar import EnglishGrammar
 
 def translate_to_english(ilocano_sentence, lexicon, parallel_sentence, parser):
     """
@@ -157,10 +157,10 @@ def tokenize_and_tag(ilocano_sentence, lexicon):
         ilocano_words.append(token)
         if word and 'pos' in word:
             word_pos_list.append((token, word['pos'][0]))
-            pos_tags.append(word['pos'][0]) # Keep original for now
+            pos_tags.append(word['pos'][0]) # Keep original word for now
         else:
             word_pos_list.append((token, token)) # Tag with the word itself if no POS
-            pos_tags.append(token) # Keep original for now
+            pos_tags.append(token) # Keep original word for now
 
     # Basic rearrangement logic for POS tags
     subject_pos = None
@@ -217,7 +217,7 @@ if __name__ == "__main__":
     ilocano_lex = IlocanoLexicon()
     parallel_translations = ParallelSentence()
 
-    grammar = IlocanoGrammar()
+    grammar = EnglishGrammar()
     grammar_parser = grammar.lookup_grammar_parser()
 
     # Example Ilocano sentences

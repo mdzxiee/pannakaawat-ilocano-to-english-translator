@@ -36,7 +36,7 @@ grammar_string_pos = """
     CD -> 'CD'
 """
 
-class IlocanoGrammar:
+class EnglishGrammar:
     def __init__(self):
         self.ilocano_grammar = nltk.CFG.fromstring(grammar_string_pos)
         self.parser = nltk.ChartParser(self.ilocano_grammar)
