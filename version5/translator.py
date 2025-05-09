@@ -171,7 +171,66 @@ if __name__ == "__main__":
         "mayat diay padi nga umay ka ditoy",
         "kayat diay padi ti umay ditoy",
         "kayat na ti gumatang ti balay",
-        "balay ti kayat na nga gatangen"
+        "balay ti kayat na nga gatangen",
+
+    # declarative sentences - cheat
+        "Agtaray ti aso",
+        "Agkanta isuna",
+        "Agbasa kami iti libro",
+        "Agtrabtrabho dakami ditoy balay",
+        "Agsangit ti pusa",
+        "Agsurat ak iti diyaryo",
+        "Agkakabsat kami",
+        "Aginana isuna",
+        "Awan ti aso ditoy",
+        "Agkakabsat kami amin",
+        "Naimbag nga aldaw mo",
+        "Naimbag nga bigat mo",
+        "Naimbag nga rabii",
+        "Naimbag nga malem",
+
+    # SVO sentences
+        "Agtaray ti aso iti dalan",
+        "Agbasa kami ti libro",
+        "Mangted isuna iti danum",
+        "Agsursurat ak iti diyaryo",
+        "Agsurat ti ubing iti libro",
+        "Mangted ak iti bayabas",
+        "Agbasa isuna iti ammo",
+        "Ala ti lalaki iti danum",
+        "Agtaray ti aso dagos",
+        "Agtrabtrabho kami ditoy",
+        "Agbasa kami agingga alas dies",
+
+    # SVC sentences
+        "ti balay ket dakkel",
+        "Isuna ket nalaing",
+        "Ti balay ket bassit",
+        "Ti aso ket dakkel",
+        "Ti danum ket nalamiis",
+        "Kami ket agtrabtrabho",
+        "Ti lalaki ket abogado",
+        "Isuna ket agbasbasa",
+        "Ti ubing ket naragsak",
+        "Ti abogado ket dakes",
+        "Isuna gumatang iti saba",
+        "Aginana isuna intono bigat",
+
+        # declarative sentences with adj
+        "Ti dakkel nga balay ket napintas",
+        "Ti bassit nga ubing ket naragsak",
+        "Ti nangina nga libro ket narugit",
+
+        # declarative sentences with adv
+        "Agtaray kanayon ti ubing",
+        "Agdigos metten ti lalaki",
+        "Napan idiay tiendaan ita",
+        "Agsangit unay ti balasang",
+        "Nagbagyo idi kalman",
+
+        # short clauses
+        "No agkanta isuna, agsala kami",
+        "No agtrabaho ka, adda kuarta mo.",
     ]
 
     for sentence in ilocano_sentences:
