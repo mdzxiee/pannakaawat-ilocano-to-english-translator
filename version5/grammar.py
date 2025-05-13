@@ -11,7 +11,7 @@ S -> RB VP
 S -> VP RB
 S -> NP JJ
 
-# Verb-initial (common in Ilocano) 
+# Verb-initial (common in Ilocano)
 S -> VB NP | VBD NP | VBG NP | VBP NP | VBZ NP
 S -> VB PP | VBD PP | VBG PP | VBP PP | VBZ PP
 S -> VB NP PP | VBD NP PP | VBG NP PP | VBP NP PP | VBZ NP PP
@@ -19,28 +19,34 @@ S -> VB NP NP | VBD NP NP | VBG NP NP | VBP NP NP | VBZ NP NP
 S -> NP VP
 VP -> VBZ NP  
 
-# Verb Phrase for Future Tense 
+# Verb Phrase for Future Tense
 VP -> MD VB | MD VB NP | MD VB PP
 VP -> VBP NP | VBG NP | VBZ NP
 VP -> MD VB | MD VBD
 
-# Verb Phrases for Continuous Actions 
+# Verb Phrases for Continuous Actions
 VP -> MD VBZ NP           
 VP -> MD VBG NP            
 VP -> VBZ RB NP            
 VP -> VBG NP               
 
-# Noun Phrases 
+# Noun Phrases
 NP -> DT NN | DT NNS | DT NN | DT NNS
 NP -> JJ NN | JJ NNS
 NP -> PRP | PRP PP | PRPS NN | PRPS NNS
 NP -> DT NN PRPS | DT NNS PRPS | PRPS NN PRPS | PRPS NNS PRPS
 
-# Adjective-initial Declaratives
+# Adjective-initial Declaratives (Updated for Reordering)
 S -> JJ DT NN | JJ DT NNS | JJ NN | JJ NNS
 S -> JJ NP | JJ PP
 S -> JJ NN PRPS | JJ NNS PRPS | JJ DT NN PRPS | JJ DT NNS PRPS
 S -> JJ DT NN PRP | JJ NN PRP | JJ DT NNS PRP
+S -> JJ DT NN PRPS         
+S -> DT NN VBZ JJ          
+S -> PRPS NN VBZ JJ        
+S -> NN DT VBD             
+S -> DT NN VBD             
+S -> JJ DT NN 
 
 # Additional Simple Constructions 
 S -> NP VP PP
@@ -52,9 +58,7 @@ S -> NP VP NP
 S -> NP VP ADJP
 S -> NP VP NP
 
-# Phrase Structures 
-
-# Noun Phrases
+# Phrase Structures
 NP -> NN | NNS | NNP 
 NP -> DT NN | DT NNS | DT NNP 
 NP -> JJ NN | JJ NNS | JJ NNP | DT JJ NN | DT JJ NNS | DT JJ NNP
@@ -65,6 +69,9 @@ NP -> VBG | VBG NN | VBG NP
 NP -> NN PRPS | NNS PRPS | DT NN PRPS | DT NNS PRPS
 NP -> JJ NN PRPS | JJ NNS PRPS | DT JJ NN PRPS | DT JJ NNS PRPS
 NP -> DT VB | DT VBD | DT VBG
+NP -> PRPS NN             
+NP -> NN PRPS              
+NP -> DT NN PRPS   
 
 # Verb Phrases
 VP -> VB | VBZ | VBG | VBD | VBP | VBN 
@@ -77,6 +84,7 @@ VP -> VB VP RB
 VP -> VB NP VP
 VP -> MD VB         
 VP -> VBG NP         
+        
 
 # Prepositional Phrases
 PP -> IN NP | IN NN | IN NNS | IN NNP | IN PRP
@@ -114,6 +122,7 @@ JJS -> 'JJS'
 MD -> 'MD'
 CD -> 'CD'
 """
+
 
 class IlocanoGrammar:
     def __init__(self):
